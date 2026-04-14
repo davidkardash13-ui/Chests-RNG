@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сундучный рудник</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-gradient" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+  <div class="app">
+    <header class="top-bar">
+      <div class="brand">
+        <span class="brand-icon">⛏</span>
+        <div>
+          <h1>Сундучный рудник</h1>
+          <p class="tagline">Копай, открывай, собирай питомцев</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat gold-pill" title="Золото">
+          <span class="stat-ico">🪙</span>
+          <span id="gold">0</span>
+        </div>
+        <div class="stat" title="Удача от лопаты">
+          <span class="stat-ico">✦</span>
+          <span>Удача <strong id="luck">0</strong>%</span>
+        </div>
+        <div class="stat" title="Комбо за идеальные копки (без промахов или быстро)">
+          <span class="stat-ico">🔥</span>
+          <span>Комбо <strong id="comboCount">0</strong></span>
+        </div>
+        <div class="stat" title="Погода влияет на мутации сундуков и предметов">
+          <span class="stat-ico">🌦️</span>
+          <span id="weatherLabel">—</span>
+        </div>
+        <div class="stat stat-fever hidden" id="statFeverWrap" title="Fever Mode: сундуки становятся на 1 ранг выше">
+          <span class="stat-ico">⚡</span>
+          <span>Fever <strong id="feverTimer">0</strong>с</span>
+        </div>
+        <div class="stat stat-passive hidden" id="statPassiveWrap" title="Пассивный доход от питомцев">
+          <span class="stat-ico">🐾</span>
+          <span><strong id="passiveRate">0</strong> 🪙/с</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel dig-panel">
+        <h2>Шахта</h2>
+        <p class="hint">«Копать» запускает мини-игру: попадай меткой в зелёную зону. Удача сужает число ударов и расшивает зону. Награда — сундук или яйцо; из сундуков иногда падают яйца.</p>
+        <div class="dig-stage">
+          <button type="button" class="btn btn-dig" id="btnDig">
+            <span class="btn-dig-inner">Копать</span>
+          </button>
+          <div class="chest-slot" id="chestSlot">
+            <div class="chest-placeholder" id="chestPlaceholder">Пока пусто</div>
+            <div class="chest-reveal hidden" id="chestReveal">
+              <div class="chest-visual" id="chestVisual">📦</div>
+              <div class="chest-meta">
+                <span class="chest-label" id="chestKindLabel">Сундук</span>
+                <span class="rarity-badge" id="chestRarityName">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chest-actions hidden" id="chestActions">
+          <button type="button" class="btn btn-primary" id="btnOpen">Открыть</button>
+          <button type="button" class="btn btn-ghost" id="btnSkip" title="Пропустить без награды">Пропустить</button>
+        </div>
+      </section>
+
+      <section class="panel loot-panel">
+        <div class="panel-head">
+          <h2>Инвентарь</h2>
+          <button type="button" class="btn btn-small btn-ghost" id="btnSellAll">Продать всё</button>
+        </div>
+        <p class="hint">Лут из сундуков. Цена растёт с редкостью (18 градаций).</p>
+        <ul class="inventory" id="inventory"></ul>
+        <p class="empty-inv hidden" id="emptyInv">Нет предметов — открой сундук.</p>
+      </section>
+
+      <section class="panel egg-panel">
+        <h2>Яйца</h2>
+        <p class="hint">Яйца из копки или бонусом из сундуков. Нажми «Вылупить», чтобы получить питомца случайной редкости (зависит от редкости яйца).</p>
+        <ul class="inventory egg-list" id="eggList"></ul>
+        <p class="empty-inv hidden" id="emptyEggs">Нет яиц — копай или открывай сундуки.</p>
+      </section>
+
+      <section class="panel pets-panel">
+        <h2>Питомцы</h2>
+        <p class="hint">Каждый питомец приносит золото в секунду. Можно отпустить за разовую выплату.</p>
+        <ul class="inventory pet-list" id="petList"></ul>
+        <p class="empty-inv hidden" id="emptyPets">Пока нет питомцев — вылупи яйцо.</p>
+      </section>
+
+      <section class="panel shop-panel">
+        <h2>Лавка лопат</h2>
+        <p class="hint">Лопаты покупаются строго по списку сверху вниз. Всегда активна последняя купленная — переключить нельзя.</p>
+        <ul class="shop-list" id="shopList"></ul>
+        <div class="equipped" id="equippedShovel">
+          <span>Экипировано:</span>
+          <strong id="shovelName">—</strong>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span class="footer-text">18 редкостей · 40 лопат · сундуки, яйца, питомцы · прогресс в браузере</span>
+      <div class="footer-actions">
+        <button type="button" class="btn btn-small btn-ghost" id="btnDailyWheel" title="Ежедневное колесо фортуны">
+          Колесо фортуны
+        </button>
+        <button type="button" class="btn btn-small btn-ghost" id="btnPromoOpen" title="Ввести промокод">
+          Промокоды
+        </button>
+        <button type="button" class="btn btn-small btn-ghost footer-reset" id="btnResetProgress" title="Удалить сохранение и начать заново">
+          Сбросить прогресс
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast-host" id="toastHost" aria-live="polite"></div>
+
+  <div id="promoOverlay" class="dig-overlay hidden" aria-hidden="true">
+    <div class="dig-modal promo-modal">
+      <h3 class="dig-modal-title">Промокоды</h3>
+      <p class="dig-modal-hint">Введите код и нажмите «Применить» или Enter.</p>
+      <input type="text" id="promoInput" class="promo-input" maxlength="64" autocomplete="off" spellcheck="false" placeholder="Например: RUDNIK2026" />
+      <div class="dig-actions">
+        <button type="button" class="btn btn-hit" id="btnPromoApply">Применить</button>
+        <button type="button" class="btn btn-ghost dig-cancel" id="btnPromoClose">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dailyWheelOverlay" class="dig-overlay hidden" aria-hidden="true">
+    <div class="dig-modal wheel-modal">
+      <h3 class="dig-modal-title">Ежедневное колесо фортуны</h3>
+      <p class="dig-modal-hint" id="wheelHint">Крути 1 раз в день и получай награду.</p>
+      <div class="wheel-face" aria-hidden="true">
+        <div class="wheel-pointer">▼</div>
+        <div class="wheel-disk" id="wheelDisk">🎡</div>
+      </div>
+      <div class="wheel-result" id="wheelResult">Выпало: —</div>
+      <div class="dig-actions">
+        <button type="button" class="btn btn-hit" id="btnWheelSpin">Крутить</button>
+        <button type="button" class="btn btn-ghost dig-cancel" id="btnWheelClose">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="digMinigameOverlay" class="dig-overlay hidden" aria-hidden="true">
+    <div class="dig-modal">
+      <div class="dig-modal-glow"></div>
+      <h3 class="dig-modal-title">Копаем глубже</h3>
+      <p class="dig-modal-hint">Нажми <strong>Ударить</strong> или <kbd class="dig-kbd">Пробел</kbd>, когда золотая метка в зелёной зоне. <kbd class="dig-kbd">Esc</kbd> — уйти без добычи.</p>
+      <div class="dig-track-wrap">
+        <div class="dig-track" id="digTrack">
+          <div class="dig-zone" id="digZone"></div>
+          <div class="dig-marker" id="digMarker" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="dig-progress">
+        Удачных ударов: <span id="digHits">0</span> / <span id="digNeed">3</span>
+      </div>
+      <div class="dig-actions">
+        <button type="button" class="btn btn-hit" id="btnMinigameHit">Ударить!</button>
+        <button type="button" class="btn btn-ghost dig-cancel" id="btnMinigameCancel">Уйти</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

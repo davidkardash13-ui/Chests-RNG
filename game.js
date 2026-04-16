@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const RARITY_MAX = 17;
+  const RARITY_MAX = 23;
 
   const RARITIES = [
     { id: 0, name: "Обычный", short: "Обычн." },
@@ -22,13 +22,19 @@
     { id: 15, name: "Сверхновый", short: "Сверхн." },
     { id: 16, name: "Мультивселенский", short: "Мультив." },
     { id: 17, name: "Омега", short: "Омега" },
+    { id: 18, name: "Мета-Омега", short: "Мета-О." },
+    { id: 19, name: "Трансцендентный", short: "Трансц." },
+    { id: 20, name: "Пара-реальность", short: "Пара-р." },
+    { id: 21, name: "Гипервселенная", short: "Гиперв." },
+    { id: 22, name: "Архипредел", short: "Архипр." },
+    { id: 23, name: "RNG-трон", short: "RNG-тр." },
   ];
 
-  const CHEST_ICONS = ["📦", "🎁", "🧰", "💠", "✨", "🌟", "🗝️", "🔱", "🌌", "☄️", "💎", "👑", "🫧", "🔆", "🕳️", "🌠", "🛸", "♾️"];
-  const EGG_ICONS = ["🥚", "🥚", "🪺", "🪺", "🐣", "🫧", "✨", "🔮", "🌟", "💫", "🦄", "🐉", "👻", "🌫️", "🪐", "☄️", "🌌", "🦋"];
+  const CHEST_ICONS = ["📦", "🎁", "🧰", "💠", "✨", "🌟", "🗝️", "🔱", "🌌", "☄️", "💎", "👑", "🫧", "🔆", "🕳️", "🌠", "🛸", "♾️", "🧬", "🔯", "🌐", "🪐", "⚛️", "👁️"];
+  const EGG_ICONS = ["🥚", "🥚", "🪺", "🪺", "🐣", "🫧", "✨", "🔮", "🌟", "💫", "🦄", "🐉", "👻", "🌫️", "🪐", "☄️", "🌌", "🦋", "🧬", "🔯", "🌐", "🪐", "⚛️", "👁️"];
 
-  const ITEM_ICONS = ["🔹", "🔸", "💠", "💎", "🔮", "⚔️", "🛡️", "🌀", "✳️", "🌠", "🧿", "⚜️", "👻", "🜁", "🜂", "🜃", "🜄", "♾️"];
-  const PET_FACE_ICONS = ["🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🦁", "🐸", "🐲", "🦋", "🦅", "🐙", "👻", "🦄", "🐉", "🦑", "🐋", "🌟"];
+  const ITEM_ICONS = ["🔹", "🔸", "💠", "💎", "🔮", "⚔️", "🛡️", "🌀", "✳️", "🌠", "🧿", "⚜️", "👻", "🜁", "🜂", "🜃", "🜄", "♾️", "🧬", "🔯", "🌐", "🪐", "⚛️", "👁️"];
+  const PET_FACE_ICONS = ["🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🦁", "🐸", "🐲", "🦋", "🦅", "🐙", "👻", "🦄", "🐉", "🦑", "🐋", "🌟", "🧬", "🔯", "🌐", "🪐", "⚛️", "👁️"];
 
   const ITEM_POOLS = [
     ["Камень", "Ветка", "Грязь", "Слиток меди", "Кость", "Песок", "Уголь", "Щепка", "Мох", "Ржавый гвоздь", "Крошка руды", "Обломок кирки"],
@@ -49,6 +55,12 @@
     ["Сердце сверхновой", "Пепел звезды", "Искра сингулярности", "Плазма зари", "Осколок фотосферы", "Нить фьюжна", "Капля гравитации", "Перо вспышки", "Семя коллапса", "Кристалл нейтрино", "Тень взрыва", "Сосуд зари"],
     ["Король ветвей", "Пыль вселенных", "Осколок альтернатив", "Нить вероятности", "Камень выбора", "Сердце парадокса", "Печать бесконечности", "Кольцо циклов", "Сфера дублей", "Ключ разлома", "Слеза дуальности", "Трон разночтений"],
     ["Точка омега", "Имя конца", "Суть предела", "Корона финала", "Семя тишины", "Око вечности", "Нить смысла", "Камень предела", "Прах вечности", "Сосуд омеги", "Замок финала", "RNG-ядро"],
+    ["Мета-осколок", "Слой вероятности", "Кристалл повтора", "Петля RNG", "Прах альфы-2", "Семя омега+", "Узел мета-слоя", "Кольцо двойников", "Перо мета-феникса", "Сфера перезапуска", "Ключ отладки", "Лог удачи"],
+    ["Трансцендент", "Пыль за гранью", "Осколок выхода", "Нить восхождения", "Камень восхода", "Слеза вознесения", "Печать трансценденции", "Сосуд чистоты", "Кристалл единства", "Лезвие возвышения", "Семя сверхсмысла", "Корона восхода"],
+    ["Пара-зеркало", "Двойник реальности", "Квант выбора", "Разлом сюжета", "Осколок сценария", "Нить параллели", "Камень ветвления", "Сфера «что если»", "Печать дубля", "Ключ развилки", "Прах альтернатив", "Сосуд разлома"],
+    ["Гиперузел", "Пыль галактик+", "Осколок кластера", "Сердце сверхскопления", "Нить космической сети", "Кристалл филамента", "Камень больших структур", "Перо тёмной материи", "Семя разлёта", "Око обсерватории", "Спектр красного смещения", "Тень реликтового излучения"],
+    ["Архипредел", "Камень последней черты", "Слеза финального слоя", "Печать закрытия", "Нить завершения", "Сосуд предела", "Осколок конца списка", "Кольцо последнего шанса", "Кристалл «всё»", "Лезвие окончательности", "Семь печатей RNG", "Трон пустоты"],
+    ["RNG-корона", "Скипетр удачи", "Сердце генератора", "Код судьбы", "Бит вечности", "Соль мира", "Корень случайности", "Печать разработчика", "Трофей бесконечности", "Медаль «ещё раз»", "Кубик богов", "Последний сундук"],
   ];
 
   const PET_POOLS = [
@@ -70,6 +82,12 @@
     ["Сверхновый Щенок", "Пульсар Кот", "Плазма Лиса", "Нейтрино Пёс", "Фотосфера Сова", "Коллапс Медведь", "Заря Волк", "Вспышка Тигр", "Сингулярность Кот-2", "Пепел Феникс", "Искра Дракон", "Тень Взрыва"],
     ["Мультикот", "Вселенский Пёс", "Парадокс Лис", "Ветвь Заяц", "Вероятность Ворон", "Дуальность Медведь", "Цикл Орёл", "Разлом Змей", "Бесконечный Хомяк", "Альтернатива Утка", "Квант Кролик", "RNG-Хомяк"],
     ["Омега-Кот", "Финальный Пёс", "Предел Лис", "Тишина Сова", "Вечность Медведь", "Смысл Дракон", "Конец Игры-2", "RNG Овца", "Омега Рыба", "Альфа Птица", "Точка Ноль Кот", "Последний Мур"],
+    ["Мета-Кот", "Петля Пёс", "Вероятность Лис", "RNG-2 Сова", "Двойник Медведь", "Парадокс Заяц", "Слой Ворон", "Квант Кот", "Сценарий Пёс", "Ветвь Дракон", "Отладчик Мур", "Лог Хвост"],
+    ["Транс-Пёс", "Восход Кот", "Чистота Лис", "Свет Заяц", "Грааль Медведь", "Орфей Птица", "Серафим Кот-2", "Путь Дракон", "Смысл+ Овца", "RNG-Ангел", "Кот Надмир", "Пёс Вознесения"],
+    ["Пара-Кот", "Зеркало Пёс", "Ветвь Лис", "Дубль Заяц", "Сценарий Ворон", "Альтернатива Медведь", "Квант Кролик-2", "Разлом Кот", "RNG-Двойник", "Параллель Пёс", "Узел Мир", "Кот Что-Если"],
+    ["Гипер-Кит", "Сверхскопление Пёс", "Тёмная материя Кот", "Филамент Лис", "Кластер Заяц", "Нейтрино Друг-2", "Космическая сеть Ворон", "Реликтовый Медведь", "Красное смещение Птица", "Галактика Мини-2", "Орбита Дракон", "RNG-Квазар"],
+    ["Архи-Кот", "Предел Пёс", "Финал Лис", "Закрытие Заяц", "Последний Ворон", "Черта Медведь", "Печать Дракон", "Трон Пустоты Кот", "RNG-Омега Пёс", "Семь Печатей Мур", "Конец Списка Кот", "Абсолют Хвост"],
+    ["RNG-Король", "Генератор Пёс", "Судьба Лис", "Бит Заяц", "Код Мир", "Вечный Кот", "Последний RNG", "Трофей Пёс", "Медаль Кот", "Кубик Богов Лис", "Скипетр Удачи", "Трон RNG"],
   ];
 
   const SHOVELS = [
@@ -113,6 +131,14 @@
     { id: "s37", name: "Лопата струн", price: 43200000000, luck: 150, desc: "Вибрирует в такт вселенной." },
     { id: "s38", name: "Лопата омега-слоя", price: 75000000000, luck: 155, desc: "Почти последнее слово." },
     { id: "s39", name: "Лопата последнего рудника", price: 130000000000, luck: 162, desc: "То, что копают после RNG." },
+    { id: "s40", name: "Лопата рубежа Планка", price: 225000000000, luck: 168, desc: "Квантует удачу в дискретные находки." },
+    { id: "s41", name: "Лопата тёмной материи", price: 390000000000, luck: 174, desc: "Притягивает то, чего не видно." },
+    { id: "s42", name: "Лопата галактического нити", price: 680000000000, luck: 180, desc: "Следует по нитям скоплений." },
+    { id: "s43", name: "Лопата реликтового слоя", price: 1180000000000, luck: 186, desc: "Копает эхо Большого взрыва." },
+    { id: "s44", name: "Лопата событийного горизонта", price: 2050000000000, luck: 192, desc: "Не отпускает удачу назад." },
+    { id: "s45", name: "Лопата инфляции вселенной", price: 3550000000000, luck: 198, desc: "Раздувает шанс вместе с космосом." },
+    { id: "s46", name: "Лопата теории всего", price: 6200000000000, luck: 205, desc: "Сводит RNG к одной формуле." },
+    { id: "s47", name: "Лопата RNG-ядра", price: 10800000000000, luck: 212, desc: "Финальный инструмент. Почти." },
   ];
 
   const SHOVEL_IDS = new Set(SHOVELS.map((s) => s.id));
@@ -221,10 +247,109 @@
       itemShift: 0,
       mutNames: ["Теневой", "Лунный", "Поглощённый тьмой"],
     },
+    {
+      id: "fog",
+      name: "Туман",
+      icon: "🌫️",
+      chestShift: 0,
+      chestMutChance: 0.12,
+      itemMutChance: 0.2,
+      itemPriceMul: 1.18,
+      itemShift: 0,
+      mutNames: ["Туманный", "Скрытный", "Молочный"],
+    },
+    {
+      id: "sandstorm",
+      name: "Песчаная буря",
+      icon: "🏜️",
+      chestShift: 0,
+      chestMutChance: 0.14,
+      itemMutChance: 0.12,
+      itemPriceMul: 1.16,
+      itemShift: 1,
+      mutNames: ["Песчаный", "Обветренный", "Оседающий"],
+    },
+    {
+      id: "aurora",
+      name: "Полярное сияние",
+      icon: "🌌",
+      chestShift: 1,
+      chestMutChance: 0.18,
+      itemMutChance: 0.16,
+      itemPriceMul: 1.24,
+      itemShift: 0,
+      mutNames: ["Северный", "Переливающийся", "Ионный"],
+    },
+    {
+      id: "meteor",
+      name: "Метеорный дождь",
+      icon: "☄️",
+      chestShift: 1,
+      chestMutChance: 0.2,
+      itemMutChance: 0.2,
+      itemPriceMul: 1.26,
+      itemShift: 1,
+      mutNames: ["Метеорный", "Огненный след", "Звёздопадный"],
+    },
+    {
+      id: "blood_moon",
+      name: "Кровавая луна",
+      icon: "🌕",
+      chestShift: 0,
+      chestMutChance: 0.25,
+      itemMutChance: 0.2,
+      itemPriceMul: 1.3,
+      itemShift: 0,
+      mutNames: ["Окровавленный", "Лунный проклятый", "Ритуальный"],
+    },
+    {
+      id: "acid_rain",
+      name: "Кислотный дождь",
+      icon: "☔",
+      chestShift: 0,
+      chestMutChance: 0.17,
+      itemMutChance: 0.22,
+      itemPriceMul: 1.21,
+      itemShift: 0,
+      mutNames: ["Прожженный", "Кислотный", "Разъедающий"],
+    },
+    {
+      id: "rainbow",
+      name: "Радуга",
+      icon: "🌈",
+      chestShift: 0,
+      chestMutChance: 0.1,
+      itemMutChance: 0.1,
+      itemPriceMul: 1.35,
+      itemShift: 2,
+      mutNames: ["Радужный", "Спектральный", "Призматический"],
+    },
+    {
+      id: "heat",
+      name: "Зной",
+      icon: "🌡️",
+      chestShift: 0,
+      chestMutChance: 0.11,
+      itemMutChance: 0.11,
+      itemPriceMul: 1.14,
+      itemShift: 0,
+      mutNames: ["Палящий", "Жаркий", "Испепеляющий"],
+    },
+    {
+      id: "volcanic",
+      name: "Вулканический пепел",
+      icon: "🌋",
+      chestShift: 1,
+      chestMutChance: 0.19,
+      itemMutChance: 0.17,
+      itemPriceMul: 1.23,
+      itemShift: 0,
+      mutNames: ["Пепельный", "Лавовый", "Магматический"],
+    },
   ];
 
   const PET_GOLD_PER_SEC = [
-    0.03, 0.07, 0.16, 0.38, 0.85, 1.9, 4.2, 9, 19, 40, 82, 165, 330, 520, 850, 1400, 2300, 3800,
+    0.03, 0.07, 0.16, 0.38, 0.85, 1.9, 4.2, 9, 19, 40, 82, 165, 330, 520, 850, 1400, 2300, 3800, 6200, 10000, 16000, 26000, 42000, 68000,
   ];
 
   function clampR(r) {
@@ -246,7 +371,7 @@
   function sellPrice(r) {
     const table = [
       5, 12, 28, 68, 165, 400, 980, 2400, 5900, 14500, 36000, 90000, 220000, 520000, 1200000, 2800000,
-      6500000, 15000000,
+      6500000, 15000000, 35000000, 80000000, 180000000, 420000000, 980000000, 2200000000,
     ];
     const i = clampR(r);
     return table[i] != null ? table[i] : table[table.length - 1];
@@ -340,6 +465,12 @@
     weatherId: "clear",
     weatherUntil: 0,
     wheelLastDay: "",
+    wheelRotationDeg: 0,
+    luckPotionBonus: 0,
+    luckPotionDigsLeft: 0,
+    tempShopWindow: 0,
+    tempShopItems: [],
+    tempShopPurchased: {},
   };
 
   let digMg = null;
@@ -409,6 +540,15 @@
         state.weatherId = typeof data.weatherId === "string" ? data.weatherId : "clear";
         state.weatherUntil = Math.max(0, Number(data.weatherUntil) || 0);
         state.wheelLastDay = typeof data.wheelLastDay === "string" ? data.wheelLastDay : "";
+        state.wheelRotationDeg = Number.isFinite(Number(data.wheelRotationDeg)) ? Number(data.wheelRotationDeg) : 0;
+        state.luckPotionBonus = Math.max(0, Number(data.luckPotionBonus) || 0);
+        state.luckPotionDigsLeft = Math.max(0, Number(data.luckPotionDigsLeft) || 0);
+        state.tempShopWindow = Math.max(0, Number(data.tempShopWindow) || 0);
+        state.tempShopItems = Array.isArray(data.tempShopItems) ? data.tempShopItems : [];
+        state.tempShopPurchased =
+          data.tempShopPurchased && typeof data.tempShopPurchased === "object" && !Array.isArray(data.tempShopPurchased)
+            ? data.tempShopPurchased
+            : {};
 
         enforceSequentialOwnership();
         syncEquippedToBestOwned();
@@ -433,6 +573,12 @@
         state.weatherId = "clear";
         state.weatherUntil = 0;
         state.wheelLastDay = "";
+        state.wheelRotationDeg = 0;
+        state.luckPotionBonus = 0;
+        state.luckPotionDigsLeft = 0;
+        state.tempShopWindow = 0;
+        state.tempShopItems = [];
+        state.tempShopPurchased = {};
         enforceSequentialOwnership();
         syncEquippedToBestOwned();
         save();
@@ -460,6 +606,12 @@
       weatherId: state.weatherId,
       weatherUntil: state.weatherUntil,
       wheelLastDay: state.wheelLastDay,
+      wheelRotationDeg: state.wheelRotationDeg,
+      luckPotionBonus: state.luckPotionBonus,
+      luckPotionDigsLeft: state.luckPotionDigsLeft,
+      tempShopWindow: state.tempShopWindow,
+      tempShopItems: state.tempShopItems,
+      tempShopPurchased: state.tempShopPurchased,
     };
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify(payload));
@@ -514,12 +666,27 @@
     wheelHint: document.getElementById("wheelHint"),
     wheelDisk: document.getElementById("wheelDisk"),
     wheelResult: document.getElementById("wheelResult"),
+    wheelDiskInner: document.getElementById("wheelDiskInner"),
     btnWheelSpin: document.getElementById("btnWheelSpin"),
     btnWheelClose: document.getElementById("btnWheelClose"),
+    shopOverlay: document.getElementById("shopOverlay"),
+    btnShopOpen: document.getElementById("btnShopOpen"),
+    btnShopClose: document.getElementById("btnShopClose"),
+    btnShopTabTemp: document.getElementById("btnShopTabTemp"),
+    btnShopTabDonate: document.getElementById("btnShopTabDonate"),
+    shopPanelTemp: document.getElementById("shopPanelTemp"),
+    shopPanelDonate: document.getElementById("shopPanelDonate"),
+    tempShopList: document.getElementById("tempShopList"),
+    tempShopTimer: document.getElementById("tempShopTimer"),
+    donateList: document.getElementById("donateList"),
   };
 
   function currentLuck() {
-    return SHOVELS[state.shovelIndex].luck;
+    let L = SHOVELS[state.shovelIndex].luck;
+    if ((state.luckPotionDigsLeft | 0) > 0 && (state.luckPotionBonus | 0) > 0) {
+      L += state.luckPotionBonus;
+    }
+    return L;
   }
 
   function isFeverActive(now) {
@@ -615,6 +782,317 @@
     return state.wheelLastDay !== localDayKey();
   }
 
+  const TEMP_SHOP_MS = 5 * 60 * 1000;
+  const WHEEL_SEGMENT_COLORS = [
+    "rgba(100, 200, 140, 0.55)",
+    "rgba(52, 152, 219, 0.5)",
+    "rgba(155, 89, 182, 0.5)",
+    "rgba(230, 126, 34, 0.5)",
+    "rgba(231, 76, 60, 0.48)",
+    "rgba(244, 208, 63, 0.45)",
+  ];
+
+  function mulberry32(a) {
+    return function () {
+      let t = (a += 0x6d2b79f5);
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function tempShopWindowId() {
+    return Math.floor(Date.now() / TEMP_SHOP_MS);
+  }
+
+  function tempShopCountdownSec() {
+    const next = (tempShopWindowId() + 1) * TEMP_SHOP_MS;
+    return Math.max(0, Math.ceil((next - Date.now()) / 1000));
+  }
+
+  const TEMP_SHOP_CATALOG = [
+    { type: "potion", key: "luck_s", name: "Зелье удачи", desc: "+12 к удаче на 6 успешных копок.", price: 4500, luckAdd: 12, digs: 6 },
+    { type: "potion", key: "luck_m", name: "Сильное зелье удачи", desc: "+22 к удаче на 4 успешные копки.", price: 12000, luckAdd: 22, digs: 4 },
+    { type: "egg", key: "egg_r3", name: "Яйцо «Редкое»", desc: "Яйцо 3-го ранга.", price: 8500, eggR: 3 },
+    { type: "egg", key: "egg_r5", name: "Яйцо «Легенда»", desc: "Яйцо 5-го ранга.", price: 38000, eggR: 5 },
+    { type: "pet", key: "pet_r4", name: "Питомец «Эпик»", desc: "Случайное имя, ранг эпический.", price: 32000, petR: 4 },
+    { type: "gold", key: "gold_pack", name: "Мешок золота", desc: "+25 000 золота.", price: 22000, gold: 25000 },
+    { type: "fever", key: "fever_s", name: "Сгусток Fever", desc: "Fever Mode 25 секунд.", price: 18000, feverMs: 25000 },
+  ];
+
+  function rollTempShopItems(seedWin) {
+    const rnd = mulberry32(seedWin * 99991 + 1337);
+    const order = TEMP_SHOP_CATALOG.map((_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(rnd() * (i + 1));
+      const t = order[i];
+      order[i] = order[j];
+      order[j] = t;
+    }
+    const out = [];
+    for (let k = 0; k < 4; k++) {
+      const def = TEMP_SHOP_CATALOG[order[k]];
+      out.push({ ...def, slotId: "ts_" + seedWin + "_" + k + "_" + def.key });
+    }
+    return out;
+  }
+
+  function ensureTempShop() {
+    const wid = tempShopWindowId();
+    if (state.tempShopWindow !== wid) {
+      state.tempShopWindow = wid;
+      state.tempShopItems = rollTempShopItems(wid);
+      state.tempShopPurchased = {};
+      save();
+    } else if (!Array.isArray(state.tempShopItems) || state.tempShopItems.length === 0) {
+      state.tempShopItems = rollTempShopItems(wid);
+      save();
+    }
+  }
+
+  function escapeSvgText(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function buildWheelSvgHtml(rewards) {
+    const N = rewards.length;
+    const cx = 100;
+    const cy = 100;
+    const R = 94;
+    const step = 360 / N;
+    let d = "";
+    let texts = "";
+    for (let i = 0; i < N; i++) {
+      const d0 = i * step;
+      const d1 = (i + 1) * step;
+      const rad0 = ((d0 - 90) * Math.PI) / 180;
+      const rad1 = ((d1 - 90) * Math.PI) / 180;
+      const x0 = cx + R * Math.cos(rad0);
+      const y0 = cy + R * Math.sin(rad0);
+      const x1 = cx + R * Math.cos(rad1);
+      const y1 = cy + R * Math.sin(rad1);
+      const large = d1 - d0 > 180 ? 1 : 0;
+      d +=
+        "<path d=\"M " +
+        cx +
+        " " +
+        cy +
+        " L " +
+        x0 +
+        " " +
+        y0 +
+        " A " +
+        R +
+        " " +
+        R +
+        " 0 " +
+        large +
+        " 1 " +
+        x1 +
+        " " +
+        y1 +
+        " Z\" fill=\"" +
+        WHEEL_SEGMENT_COLORS[i % WHEEL_SEGMENT_COLORS.length] +
+        "\" stroke=\"rgba(0,0,0,0.35)\" stroke-width=\"0.9\"/>";
+      const mid = d0 + step / 2;
+      const radM = ((mid - 90) * Math.PI) / 180;
+      const lx = cx + R * 0.62 * Math.cos(radM);
+      const ly = cy + R * 0.62 * Math.sin(radM);
+      const lab = rewards[i].shortLabel || rewards[i].label;
+      const short = lab.length > 14 ? lab.slice(0, 12) + "…" : lab;
+      texts +=
+        "<text x=\"" +
+        lx +
+        "\" y=\"" +
+        ly +
+        "\" fill=\"#f8f2e2\" font-size=\"7.5\" font-weight=\"700\" font-family=\"Manrope, sans-serif\" text-anchor=\"middle\" dominant-baseline=\"middle\" transform=\"rotate(" +
+        mid +
+        " " +
+        lx +
+        " " +
+        ly +
+        ")\">" +
+        escapeSvgText(short) +
+        "</text>";
+    }
+    return (
+      "<svg class=\"wheel-svg\" viewBox=\"0 0 200 200\" width=\"220\" height=\"220\" aria-hidden=\"true\">" +
+      d +
+      "<circle cx=\"" +
+      cx +
+      "\" cy=\"" +
+      cy +
+      "\" r=\"20\" fill=\"#121820\" stroke=\"rgba(255,220,150,0.35)\" stroke-width=\"1.2\"/>" +
+      texts +
+      "</svg>"
+    );
+  }
+
+  function refreshWheelFace() {
+    if (!el.wheelDiskInner) return;
+    const t = wheelRewardTable();
+    el.wheelDiskInner.innerHTML = buildWheelSvgHtml(t);
+    el.wheelDiskInner.style.transform = "rotate(" + (state.wheelRotationDeg || 0) + "deg)";
+  }
+
+  let shopTimerId = null;
+
+  function openShopModal() {
+    if (!el.shopOverlay) return;
+    ensureTempShop();
+    el.shopOverlay.classList.remove("hidden");
+    el.shopOverlay.setAttribute("aria-hidden", "false");
+    el.shopOverlay.setAttribute("aria-modal", "true");
+    setShopTab("temp");
+    renderTempShop();
+    renderDonateList();
+    if (shopTimerId) clearInterval(shopTimerId);
+    shopTimerId = setInterval(function () {
+      if (!el.shopOverlay || el.shopOverlay.classList.contains("hidden")) return;
+      const wid = tempShopWindowId();
+      if (state.tempShopWindow !== wid) {
+        ensureTempShop();
+        renderTempShop();
+      }
+      if (el.tempShopTimer) {
+        const s = tempShopCountdownSec();
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        el.tempShopTimer.textContent = "Обновление ассортимента через: " + m + ":" + String(sec).padStart(2, "0");
+      }
+    }, 500);
+    if (el.tempShopTimer) {
+      const s = tempShopCountdownSec();
+      const m = Math.floor(s / 60);
+      const sec = s % 60;
+      el.tempShopTimer.textContent = "Обновление ассортимента через: " + m + ":" + String(sec).padStart(2, "0");
+    }
+  }
+
+  function closeShopModal() {
+    if (!el.shopOverlay) return;
+    el.shopOverlay.classList.add("hidden");
+    el.shopOverlay.setAttribute("aria-hidden", "true");
+    el.shopOverlay.removeAttribute("aria-modal");
+    if (shopTimerId) {
+      clearInterval(shopTimerId);
+      shopTimerId = null;
+    }
+  }
+
+  function setShopTab(which) {
+    const isTemp = which === "temp";
+    if (el.shopPanelTemp) el.shopPanelTemp.classList.toggle("hidden", !isTemp);
+    if (el.shopPanelDonate) el.shopPanelDonate.classList.toggle("hidden", isTemp);
+    if (el.btnShopTabTemp) el.btnShopTabTemp.classList.toggle("shop-tab--active", isTemp);
+    if (el.btnShopTabDonate) el.btnShopTabDonate.classList.toggle("shop-tab--active", !isTemp);
+  }
+
+  function renderTempShop() {
+    ensureTempShop();
+    if (!el.tempShopList) return;
+    el.tempShopList.innerHTML = "";
+    for (const it of state.tempShopItems) {
+      const bought = state.tempShopPurchased[it.slotId];
+      const li = document.createElement("li");
+      li.className = "shop-temp-item";
+      const main = document.createElement("div");
+      main.className = "shop-temp-main";
+      main.innerHTML =
+        "<strong>" +
+        escapeHtml(it.name) +
+        "</strong><div class=\"shop-temp-desc\">" +
+        escapeHtml(it.desc) +
+        "</div>";
+      const actions = document.createElement("div");
+      actions.className = "shop-temp-actions";
+      const price = document.createElement("span");
+      price.className = "shop-temp-price";
+      price.textContent = it.price.toLocaleString("ru-RU") + " 🪙";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-small btn-primary";
+      btn.textContent = bought ? "Куплено" : "Купить";
+      btn.disabled = bought || !canAfford(it.price);
+      btn.dataset.tempBuy = it.slotId;
+      actions.appendChild(price);
+      actions.appendChild(btn);
+      li.appendChild(main);
+      li.appendChild(actions);
+      el.tempShopList.appendChild(li);
+    }
+  }
+
+  const DONATE_SERVICES = [
+    { id: "d_gold", title: "Буст золота", desc: "Идея: пакет игрового золота за донат (пока не реализовано).", price: "99 ₽" },
+    { id: "d_pet", title: "Эксклюзивный питомец", desc: "Идея: особый питомец или скин (пока не реализовано).", price: "299 ₽" },
+    { id: "d_vip", title: "VIP-сундук", desc: "Идея: ежедневный бонус-сундук (пока не реализовано).", price: "199 ₽" },
+    { id: "d_pass", title: "Пропуск рекламы", desc: "Идея: отключение рекламы, если она появится (пока не реализовано).", price: "149 ₽" },
+  ];
+
+  function renderDonateList() {
+    if (!el.donateList) return;
+    el.donateList.innerHTML = "";
+    for (const d of DONATE_SERVICES) {
+      const li = document.createElement("li");
+      li.className = "donate-item donate-item--inactive";
+      li.innerHTML =
+        "<div><strong>" +
+        escapeHtml(d.title) +
+        "</strong><div class=\"donate-desc\">" +
+        escapeHtml(d.desc) +
+        "</div></div>";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-small btn-ghost donate-btn-disabled";
+      btn.disabled = true;
+      btn.textContent = d.price + " · недоступно";
+      btn.title = "Оплата не подключена";
+      li.appendChild(btn);
+      el.donateList.appendChild(li);
+    }
+  }
+
+  function buyTempShopItem(slotId) {
+    const it = state.tempShopItems.find((x) => x.slotId === slotId);
+    if (!it || state.tempShopPurchased[slotId]) return;
+    if (!canAfford(it.price)) {
+      toast("Не хватает золота.");
+      return;
+    }
+    state.gold = sanitizeGold(state.gold - it.price);
+    state.tempShopPurchased[slotId] = true;
+    const now = performance.now();
+    if (it.type === "potion") {
+      state.luckPotionBonus = it.luckAdd | 0;
+      state.luckPotionDigsLeft = it.digs | 0;
+      toast("Куплено: " + it.name + " — активно на " + state.luckPotionDigsLeft + " копок.");
+    } else if (it.type === "egg") {
+      state.eggs.push({ id: uid("e"), r: clampR(it.eggR) });
+      toast("Куплено яйцо: " + RARITIES[clampR(it.eggR)].name + "!");
+    } else if (it.type === "pet") {
+      const pr = clampR(it.petR);
+      const name = randomFromPool(PET_POOLS, pr);
+      state.pets.push({ id: uid("p"), r: pr, name });
+      toast("Новый питомец: " + name + "!");
+    } else if (it.type === "gold") {
+      state.gold = sanitizeGold(state.gold + (it.gold | 0));
+      toast("Получено +" + (it.gold | 0).toLocaleString("ru-RU") + " 🪙");
+    } else if (it.type === "fever") {
+      state.feverUntil = Math.max(state.feverUntil || 0, now + (it.feverMs | 0));
+      toast("Fever Mode активирован!");
+    }
+    save();
+    renderGold();
+    renderTempShop();
+    renderEggs();
+    renderPets();
+    renderShop();
+  }
+
   function openDailyWheel() {
     if (!el.dailyWheelOverlay) return;
     el.dailyWheelOverlay.classList.remove("hidden");
@@ -627,6 +1105,7 @@
     }
     if (el.wheelResult) el.wheelResult.textContent = "Выпало: —";
     if (el.btnWheelSpin) el.btnWheelSpin.disabled = !canSpinWheelToday();
+    refreshWheelFace();
   }
 
   function closeDailyWheel() {
@@ -638,12 +1117,12 @@
 
   function wheelRewardTable() {
     return [
-      { id: "gold_small", label: "+500 🪙", w: 28 },
-      { id: "gold_mid", label: "+2 500 🪙", w: 20 },
-      { id: "gold_big", label: "+15 000 🪙", w: 10 },
-      { id: "egg", label: "Яйцо", w: 18 },
-      { id: "items", label: "3 предмета", w: 16 },
-      { id: "fever", label: "Fever 15с", w: 8 },
+      { id: "gold_small", label: "+500 🪙", shortLabel: "+500", w: 28 },
+      { id: "gold_mid", label: "+2 500 🪙", shortLabel: "+2500", w: 20 },
+      { id: "gold_big", label: "+15 000 🪙", shortLabel: "+15k", w: 10 },
+      { id: "egg", label: "Яйцо", shortLabel: "Яйцо", w: 18 },
+      { id: "items", label: "3 предмета", shortLabel: "3 вещи", w: 16 },
+      { id: "fever", label: "Fever 15с", shortLabel: "Fever", w: 8 },
     ];
   }
 
@@ -705,25 +1184,27 @@
     const reward = picked.reward;
     state.wheelLastDay = localDayKey();
     if (el.btnWheelSpin) el.btnWheelSpin.disabled = true;
-    if (el.wheelDisk) {
+    const inner = el.wheelDiskInner;
+    if (inner) {
       const N = picked.total || 6;
       const step = 360 / N;
       const jitter = (Math.random() * 0.6 - 0.3) * step;
       const targetCenter = picked.idx * step + step / 2 + jitter;
       const turns = 6 + Math.floor(Math.random() * 4);
-      const deg = turns * 360 + (360 - targetCenter);
-      el.wheelDisk.style.transform = "rotate(" + deg + "deg)";
+      const delta = turns * 360 + (360 - targetCenter);
+      state.wheelRotationDeg = (state.wheelRotationDeg || 0) + delta;
+      inner.style.transform = "rotate(" + state.wheelRotationDeg + "deg)";
     }
     save();
     if (el.wheelResult) el.wheelResult.textContent = "Выпало: …";
     const finish = () => {
-      if (el.wheelDisk) el.wheelDisk.removeEventListener("transitionend", finish);
+      if (inner) inner.removeEventListener("transitionend", finish);
       if (el.wheelResult) el.wheelResult.textContent = "Выпало: " + reward.label;
       applyWheelReward(reward);
       if (el.wheelHint) el.wheelHint.textContent = "Ты уже крутил сегодня. Приходи завтра!";
     };
-    if (el.wheelDisk) {
-      el.wheelDisk.addEventListener("transitionend", finish, { once: true });
+    if (inner) {
+      inner.addEventListener("transitionend", finish, { once: true });
     } else {
       finish();
     }
@@ -789,7 +1270,20 @@
 
   function renderGold() {
     el.gold.textContent = Math.floor(state.gold).toLocaleString("ru-RU");
-    el.luck.textContent = String(currentLuck());
+    const L = currentLuck();
+    el.luck.textContent =
+      String(L) +
+      ((state.luckPotionDigsLeft | 0) > 0 && (state.luckPotionBonus | 0) > 0
+        ? " ⚗️"
+        : "");
+    if (el.luck.parentElement) {
+      el.luck.parentElement.title =
+        "База лопаты: " +
+        SHOVELS[state.shovelIndex].luck +
+        (state.luckPotionDigsLeft > 0
+          ? " · зелье: +" + state.luckPotionBonus + " на " + state.luckPotionDigsLeft + " копок"
+          : "");
+    }
     el.shovelName.textContent = SHOVELS[state.shovelIndex].name;
     if (el.comboCount) el.comboCount.textContent = String(state.combo | 0);
     if (el.weatherLabel) {
@@ -1255,6 +1749,16 @@
       renderGold();
       toast("Выпал сундук: " + RARITIES[r].name + "!");
     }
+
+    if ((state.luckPotionDigsLeft | 0) > 0) {
+      state.luckPotionDigsLeft = Math.max(0, state.luckPotionDigsLeft - 1);
+      if (state.luckPotionDigsLeft === 0) {
+        state.luckPotionBonus = 0;
+        toast("Зелье удачи закончилось.");
+      }
+      save();
+      renderGold();
+    }
   }
 
   function startDig() {
@@ -1358,6 +1862,12 @@
     state.weatherId = "clear";
     state.weatherUntil = 0;
     state.wheelLastDay = "";
+    state.wheelRotationDeg = 0;
+    state.luckPotionBonus = 0;
+    state.luckPotionDigsLeft = 0;
+    state.tempShopWindow = 0;
+    state.tempShopItems = [];
+    state.tempShopPurchased = {};
     syncEquippedToBestOwned();
     save();
     renderGold();
@@ -1384,6 +1894,18 @@
     if (el.btnDailyWheel) el.btnDailyWheel.addEventListener("click", openDailyWheel);
     if (el.btnWheelSpin) el.btnWheelSpin.addEventListener("click", spinWheel);
     if (el.btnWheelClose) el.btnWheelClose.addEventListener("click", closeDailyWheel);
+    if (el.btnShopOpen) el.btnShopOpen.addEventListener("click", openShopModal);
+    if (el.btnShopClose) el.btnShopClose.addEventListener("click", closeShopModal);
+    if (el.btnShopTabTemp) el.btnShopTabTemp.addEventListener("click", () => setShopTab("temp"));
+    if (el.btnShopTabDonate) el.btnShopTabDonate.addEventListener("click", () => setShopTab("donate"));
+    if (el.tempShopList) {
+      el.tempShopList.addEventListener("click", function (e) {
+        const b = e.target && e.target.closest ? e.target.closest("[data-temp-buy]") : null;
+        if (!b) return;
+        const sid = b.getAttribute("data-temp-buy");
+        if (sid) buyTempShopItem(sid);
+      });
+    }
     if (el.promoOverlay) {
       el.promoOverlay.addEventListener("click", function (e) {
         if (e.target === el.promoOverlay) closePromoModal();
@@ -1392,6 +1914,11 @@
     if (el.dailyWheelOverlay) {
       el.dailyWheelOverlay.addEventListener("click", function (e) {
         if (e.target === el.dailyWheelOverlay) closeDailyWheel();
+      });
+    }
+    if (el.shopOverlay) {
+      el.shopOverlay.addEventListener("click", function (e) {
+        if (e.target === el.shopOverlay) closeShopModal();
       });
     }
     if (el.promoInput) {
@@ -1414,6 +1941,13 @@
         if (e.code === "Escape") {
           e.preventDefault();
           closeDailyWheel();
+        }
+        return;
+      }
+      if (el.shopOverlay && !el.shopOverlay.classList.contains("hidden")) {
+        if (e.code === "Escape") {
+          e.preventDefault();
+          closeShopModal();
         }
         return;
       }
@@ -1472,6 +2006,7 @@
   function init() {
     load();
     ensureWeatherStarted();
+    ensureTempShop();
     if (!localStorage.getItem(SAVE_KEY) && !localStorage.getItem(SAVE_KEY_LEGACY)) save();
     bind();
     renderGold();

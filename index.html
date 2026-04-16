@@ -80,7 +80,7 @@
           <h2>Инвентарь</h2>
           <button type="button" class="btn btn-small btn-ghost" id="btnSellAll">Продать всё</button>
         </div>
-        <p class="hint">Лут из сундуков. Цена растёт с редкостью (18 градаций).</p>
+        <p class="hint">Лут из сундуков. Цена растёт с редкостью (24 градации).</p>
         <ul class="inventory" id="inventory"></ul>
         <p class="empty-inv hidden" id="emptyInv">Нет предметов — открой сундук.</p>
       </section>
@@ -111,8 +111,11 @@
     </main>
 
     <footer class="footer">
-      <span class="footer-text">18 редкостей · 40 лопат · сундуки, яйца, питомцы · прогресс в браузере</span>
+      <span class="footer-text">24 редкости · 48 лопат · сундуки, яйца, питомцы · прогресс в браузере</span>
       <div class="footer-actions">
+        <button type="button" class="btn btn-small btn-ghost" id="btnShopOpen" title="Магазин: временные товары и донат">
+          Магазин
+        </button>
         <button type="button" class="btn btn-small btn-ghost" id="btnDailyWheel" title="Ежедневное колесо фортуны">
           Колесо фортуны
         </button>
@@ -146,12 +149,43 @@
       <p class="dig-modal-hint" id="wheelHint">Крути 1 раз в день и получай награду.</p>
       <div class="wheel-face" aria-hidden="true">
         <div class="wheel-pointer">▼</div>
-        <div class="wheel-disk" id="wheelDisk">🎡</div>
+        <div class="wheel-disk" id="wheelDisk">
+          <div class="wheel-disk-inner" id="wheelDiskInner"></div>
+        </div>
       </div>
       <div class="wheel-result" id="wheelResult">Выпало: —</div>
       <div class="dig-actions">
         <button type="button" class="btn btn-hit" id="btnWheelSpin">Крутить</button>
         <button type="button" class="btn btn-ghost dig-cancel" id="btnWheelClose">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="shopOverlay" class="dig-overlay hidden" aria-hidden="true">
+    <div class="dig-modal shop-modal">
+      <h3 class="dig-modal-title">Магазин</h3>
+      <div class="shop-tabs">
+        <button type="button" class="shop-tab shop-tab--active" id="btnShopTabTemp">Временный магазин</button>
+        <button type="button" class="shop-tab" id="btnShopTabDonate">Донат-услуги</button>
+      </div>
+      <div id="shopPanelTemp">
+        <p class="shop-timer" id="tempShopTimer">Обновление через: —</p>
+        <p class="dig-modal-hint shop-hint-temp">Ассортимент обновляется каждые 5 минут. Зелья, яйца, питомцы и другое — за игровое золото.</p>
+        <ul class="shop-temp-list" id="tempShopList"></ul>
+      </div>
+      <div id="shopPanelDonate" class="hidden">
+        <div class="donate-unavailable">
+          <p class="donate-unavailable-title">Пока ничего не работает</p>
+          <p class="donate-unavailable-text">
+            Оплата и донаты <strong>не подключены</strong>: нет приёма денег, нет выдачи наград за реальные деньги и нет привязки к платёжным системам.
+            Всё ниже — только <strong>черновые идеи</strong>, что может появиться позже.
+          </p>
+        </div>
+        <p class="dig-modal-hint donate-hint-list">Запланировано (в игре не покупается):</p>
+        <ul class="donate-list" id="donateList"></ul>
+      </div>
+      <div class="dig-actions">
+        <button type="button" class="btn btn-ghost dig-cancel" id="btnShopClose">Закрыть</button>
       </div>
     </div>
   </div>
@@ -177,6 +211,7 @@
     </div>
   </div>
 
+  <script src="donate-config.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
